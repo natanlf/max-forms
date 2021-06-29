@@ -35,6 +35,10 @@
               </span>
           </div>
         </div>
+        <div class="form-group">
+          <label>Age</label>
+            <input type="number" class="form-control" formControlName="age" [value]="age">{{ age }}
+        </div>
         <div class="radio" *ngFor="let gender of genders">
           <label>
             <input

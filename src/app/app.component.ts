@@ -24,7 +24,8 @@ export class AppComponent implements OnInit {
         'email': new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmails),
       }),
       'gender': new FormControl('male'),
-      'hobbies': new FormArray([])
+      'hobbies': new FormArray([]),
+      'age': new FormControl('age', [Validators.min(0), Validators.pattern(/^[0-9]*$/)])
     });
     //this.signupForm.valueChanges.subscribe(res => console.log(res));
     //this.signupForm.statusChanges.subscribe(res => console.log(res));
@@ -34,7 +35,8 @@ export class AppComponent implements OnInit {
         'email': 'max@test.com'
       },
       'gender': 'male',
-      'hobbies': []
+      'hobbies': [],
+      'age': 0
     });
 
     this.signupForm.patchValue({
@@ -42,6 +44,7 @@ export class AppComponent implements OnInit {
         'username': 'Anna',
       }
     });
+    this.checkAge();
   }
 
   onSubmit() {
@@ -73,5 +76,20 @@ export class AppComponent implements OnInit {
       }, 1500);
     });
     return promisse;
+  }
+
+  checkAge(){
+    this.signupForm.valueChanges.subscribe(val => {
+      /*if(val.age<0) {
+        this.signupForm.controls.age.setValue(null);
+      }*/
+      if(val.age != null) {
+        let ageS = val.age.toString();
+        //let test = ageS.match(/^[0-9]*$/);
+        let test = ageS.match(/^\d*\.?\d+$/);
+        console.log(test)
+        test == null ? this.signupForm.controls.age.setValue(null) : '';
+      }
+    });
   }
 }
